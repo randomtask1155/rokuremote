@@ -55,11 +55,20 @@ func (p *Player) Left() error {
 func (p *Player) Right() error {
 	return p.Post("/keypress/right")
 }
-func (p *Player) OK() error {
+func (p *Player) Select() error {
 	return p.Post("/keypress/select")
+}
+func (p *Player) Enter() error {
+	return p.Post("/keypress/enter")
 }
 func (p *Player) Back() error {
 	return p.Post("/keypress/back")
+}
+func (p *Player) Search() error {
+	return p.Post("/keypress/search")
+}
+func (p *Player) Play() error {
+	return p.Post("/keypress/play")
 }
 
 func (p *Player) StartChannel(chanid int) error {
