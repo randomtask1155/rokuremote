@@ -1,24 +1,26 @@
 package rokuremote
 
 import (
+	"bytes"
+	"fmt"
 	"net/http"
 	"strconv"
 )
 
 type Player struct {
-	Address string
-	Port string
+	Address  string
+	Port     string
 	NickName string
-	Client *http.Client
+	Client   *http.Client
 }
 
 const (
-	Hulu    = 2285
-	Netflix = 12
-	HBO = 61322
-	Plex = 13535
+	Hulu        = 2285
+	Netflix     = 12
+	HBO         = 61322
+	Plex        = 13535
 	AmazonPrime = 13
-	USTVNow = 2026
+	USTVNow     = 2026
 )
 
 func Connect(ip string) (Player, error) {
@@ -28,16 +30,23 @@ func Connect(ip string) (Player, error) {
 // Given player nickname connect and return player
 func ConnectName(name string) (Player, error) {
 
-	return Player{}, nil
+	return Player{ ip, "8060", name, &http.Client{}}, nil
 }
 
 func (p *Player) Post(path string) error {
-	req, err := http.NewRequest("POST", "http://"+p.Address+":8060"+path, nil)
+	req, err := http.NewRequest("POST", "http://"+p.Address+":8060"+path, new(bytes.Buffer))
 	if err != nil {
 		return err
 	}
-	_, err =  p.Client.Do(req)
-	return err
+	resp, err := p.Client.Do(req)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("ResponseError:%s: %s\n", path, resp.Status)
+	}
+
+	return nil
 }
 
 func (p *Player) Home() error {

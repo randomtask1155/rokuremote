@@ -1,14 +1,14 @@
 package rokuremote
 
-
-
 import (
-	"testing"
 	"os"
+	"testing"
 )
-
 
 func TestPlayer_Home(t *testing.T) {
 	r, _ := Connect(os.Getenv("ROKUIP"))
-	r.Home()
+	err := r.Home()
+	if err != nil {
+		t.Errorf("Home: %s\n", err)
+	}
 }
