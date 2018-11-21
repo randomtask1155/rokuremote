@@ -28,7 +28,7 @@ func Connect(ip string) (Player, error) {
 }
 
 // Given player nickname connect and return player
-func ConnectName(name string) (Player, error) {
+func ConnectName(ip, name string) (Player, error) {
 
 	return Player{ ip, "8060", name, &http.Client{}}, nil
 }
