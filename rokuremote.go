@@ -14,6 +14,7 @@ type Player struct {
 	Client   *http.Client
 }
 
+// http://yourrokuaddress:8060/query/apps
 const (
 	Hulu        = 2285
 	Netflix     = 12
@@ -21,6 +22,9 @@ const (
 	Plex        = 13535
 	AmazonPrime = 13
 	USTVNow     = 2026
+	PBS         = 23333
+	Disney      = 2157
+	NickJR      = 66595
 )
 
 func Connect(ip string) (Player, error) {
@@ -30,7 +34,7 @@ func Connect(ip string) (Player, error) {
 // Given player nickname connect and return player
 func ConnectName(ip, name string) (Player, error) {
 
-	return Player{ ip, "8060", name, &http.Client{}}, nil
+	return Player{ip, "8060", name, &http.Client{}}, nil
 }
 
 func (p *Player) Post(path string) error {
