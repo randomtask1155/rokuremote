@@ -25,6 +25,8 @@ const (
 	PBS         = 23333
 	Disney      = 2157
 	NickJR      = 66595
+	YouTube     = 837
+	CBS         = 27536
 )
 
 func Connect(ip string) (Player, error) {
