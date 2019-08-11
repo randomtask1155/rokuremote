@@ -3,6 +3,7 @@ package rokuremote
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 )
@@ -37,6 +38,22 @@ func Connect(ip string) (Player, error) {
 func ConnectName(ip, name string) (Player, error) {
 
 	return Player{ip, "8060", name, &http.Client{}}, nil
+}
+
+// Get send get requst to rokue and return response
+func (p *Player) Get(path string) ([]byte, error) {
+	req, err := http.NewRequest("GET", "http://"+p.Address+":8060"+path, new(bytes.Buffer))
+	if err != nil {
+		return nil, err
+	}
+	resp, err := p.Client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("ResponseError:%s: %s\n", path, resp.Status)
+	}
+	return ioutil.ReadAll(resp.Body)
 }
 
 func (p *Player) Post(path string) error {
